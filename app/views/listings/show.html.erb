@@ -1,0 +1,16 @@
+<h1><%= @listing.address %></h1>
+
+<div id="photos">
+  <% @listing.photos.each do |photo| %>
+    <%= image_tag photo.picture.url(:thumb) %>
+  <% end %>
+</div>
+
+<% if current_user.id == @listing.user_id %>
+  <%= form_for [current_user, @listing, @photo], remote: true do |f| %>
+    <div class="form-group">
+      <%= f.file_field :picture, class: 'form-control' %>
+    </div>
+    <%= f.submit 'Submit', class: 'btn btn-info' %>
+  <% end %>
+<% end %>

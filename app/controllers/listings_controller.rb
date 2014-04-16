@@ -10,12 +10,14 @@ class ListingsController < ApplicationController
 
   def show
     @listing = Listing.find(params[:id])
+    @photo = Photo.new
   end
 
   def create
     @user = User.find(params[:user_id])
     @listing = Listing.new(listing_params)
     @user.listings << @listing
+
     if @listing.save
       flash[:notice] = "Your Listing Has Been Created!"
       redirect_to user_path(@user)
