@@ -11,6 +11,7 @@ class ListingsController < ApplicationController
   def show
     @listing = Listing.find(params[:id])
     @photo = Photo.new
+    @user = User.find(params[:user_id])
   end
 
   def create

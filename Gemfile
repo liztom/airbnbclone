@@ -13,6 +13,7 @@ gem 'bcrypt'
 gem 'rghost'
 gem 'stringex'
 gem 'devise'
+gem 'remotipart'
 
 group :development do
   gem 'better_errors'

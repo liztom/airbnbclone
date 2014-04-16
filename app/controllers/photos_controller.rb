@@ -1,13 +1,11 @@
 class PhotosController < ApplicationController
   def create
     @listing = Listing.find(params[:listing_id])
-    @photo = Photo.new(photo_params)
-    @listing.photos << @photo
+    @photo = @listing.photos.create(photo_params)
 
-    if @photo.save
-      redirect_to :back
-    else
-      render 'listing/show'
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
     end
   end
 

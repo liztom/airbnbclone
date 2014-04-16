@@ -7,7 +7,7 @@
 </div>
 
 <% if current_user.id == @listing.user_id %>
-  <%= form_for [current_user, @listing, @photo], remote: true do |f| %>
+  <%= form_for [@user, @listing, @photo], remote: true, authenticity_token: true, html: { :multipart => true } do |f| %>
     <div class="form-group">
       <%= f.file_field :picture, class: 'form-control' %>
     </div>
