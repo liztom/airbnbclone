@@ -1,0 +1,27 @@
+html, body, div, img, span, h1, h2, h3, h4, p, ol, ul, li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: left;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+li {list-style-position: inside;}
+
+body {
+  background-color: navy;
+}
+
+#wrapper {
+  margin:65px auto 0 auto;
+  width: 85%;
+  background-color:white;
+  padding:20px 30px;
+}

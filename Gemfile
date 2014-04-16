@@ -12,6 +12,7 @@ gem 'bootstrap-sass'
 gem 'bcrypt'
 gem 'rghost'
 gem 'stringex'
+gem 'devise'
 
 group :development do
   gem 'better_errors'

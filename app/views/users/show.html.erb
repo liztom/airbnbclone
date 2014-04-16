@@ -1,0 +1,9 @@
+<div class="col-md-4">
+  <%= image_tag @user.avatar.url(:medium) %>
+  <%= link_to 'Edit Profile', edit_user_registration_path %>
+</div>
+<div class="col-md-8">
+  <h2>Hi, I'm <%= @user.name %>!</h2>
+
+  <%= @user.bio %>
+</div>
