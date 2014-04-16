@@ -1,9 +1,18 @@
-<div class="col-md-4">
-  <%= image_tag @user.avatar.url(:medium) %>
-  <%= link_to 'Edit Profile', edit_user_registration_path %>
+<div class="row">
+  <div class="col-md-5">
+    <%= image_tag @user.avatar.url(:medium) %>
+  </div>
+  <div class="col-md-7">
+    <h2>Hi, I'm <%= @user.name %>!</h2>
+    <%= @user.bio %>
+    <hr>
+    <%= link_to 'Edit Profile', edit_user_registration_path %> |
+    <%= link_to 'New Listing', new_user_listing_path(current_user) %>
+  </div>
 </div>
-<div class="col-md-8">
-  <h2>Hi, I'm <%= @user.name %>!</h2>
-
-  <%= @user.bio %>
+<div class="row">
+  <h2>Listings:</h2>
+  <% @listings.each do |listing| %>
+    <%= link_to listing.address, user_listing_path(current_user, listing) %>
+  <% end %>
 </div>

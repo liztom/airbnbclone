@@ -1,5 +1,7 @@
 Bearbnb::Application.routes.draw do
   devise_for :users
-  resources :users
-  root to: 'users#index'
+  resources :users do
+    resources :listings
+  end
+  root to: 'listings#index'
 end

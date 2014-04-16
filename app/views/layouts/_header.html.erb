@@ -8,12 +8,12 @@
         </button>
         <div class="collapse navbar-collapse navHeaderCollapse">
             <ul class="nav navbar-nav navbar-left">
-              <li><a href="/">Twitter</a></li>
+              <li><a href="/"><img height="20" src="http://upload.wikimedia.org/wikipedia/commons/c/c4/Farm-Fresh_teddy_bear.png">Bear BNB</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
               <% if current_user %>
-               <li><%= link_to current_user.email, user_path(current_user) %></li>
+               <li><%= link_to current_user.name, user_path(current_user) %></li>
                <li><%= link_to 'Logout', destroy_user_session_path, method: 'delete' %></li>
               <% else %>
                 <li><%= link_to 'Login', new_user_session_path %></li>

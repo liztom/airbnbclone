@@ -5,7 +5,6 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
-require 'database_cleaner'
 require 'paperclip/matchers'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
