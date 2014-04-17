@@ -85,4 +85,9 @@ body {
 
 .day-box .booking {
   display:block;
+  color: red;
+}
+
+.booked-day {
+  background-color: #eee;
 }

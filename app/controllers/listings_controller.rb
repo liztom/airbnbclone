@@ -14,10 +14,8 @@ class ListingsController < ApplicationController
     @user = User.find(params[:user_id])
     @reservations = @listing.reservations
     @reservation = Reservation.new
-
     @tags = @listing.tags
     @amenities = Amenity.all - @listing.amenities
-
   end
 
   def create

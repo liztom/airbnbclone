@@ -9,6 +9,7 @@ class ReservationsController < ApplicationController
       flash[:notice] = "Your reservation was made"
       redirect_to user_listing_path(@user, @listing)
     else
+      @reservations = @listing.reservations[0...-1]
       flash[:alert] = "There was an error with your reservation."
       render 'listings/show'
     end
