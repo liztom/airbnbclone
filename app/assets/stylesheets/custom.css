@@ -37,3 +37,22 @@ body {
 #add-amenities ul li a {
   color: white;
 }
+
+
+.listing-index {
+  float: left;
+  margin: 5px;
+  width: 300px;
+  height:300px;
+}
+
+.listing-info {
+  margin: 10px;
+  position: absolute;
+  text-shadow: 1px 1px 1px white;
+}
+
+.listing-bg {
+  max-width: 300px;
+  max-height: 300px;
+}
