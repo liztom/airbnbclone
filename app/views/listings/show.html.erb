@@ -41,9 +41,9 @@
   </div>
 </div>
 <hr>
-<div class="row">
-  <div class="col-md-4">
-    <% if current_user.id == @listing.user_id %>
+<% if current_user.id == @listing.user_id %>
+  <div class="row">
+    <div class="col-md-4">
       <%= form_for [@user, @listing, @photo], remote: true, authenticity_token: true, html: { :multipart => true } do |f| %>
         <div class="form-group">
           <%= f.label :picture, "Add a Photo" %>
@@ -51,22 +51,19 @@
         </div>
         <%= f.submit 'Submit', class: 'btn btn-info' %>
       <% end %>
-    <% end %>
+    </div>
+    <div class="col-md-2">
+      <%= link_to 'Edit Listing', edit_user_listing_path(current_user, @listing) %>
+    </div>
+    <div class="col-md-6"  id="add-amenities">
+      Add Amenities:
+      <ul>
+        <% @amenities.each do |am| %>
+          <li><%= link_to am.name, amenity_tags_path(am, :listing_id => @listing.id), method: 'post', id: "am-#{am.id}", remote: true %></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
-  <div class="col-md-2">
-    <%= link_to 'Edit Listing', edit_user_listing_path(current_user, @listing) %>
-  </div>
-  <div class="col-md-6"  id="add-amenities">
-    Add Amenities:
-    <ul>
-      <% @amenities.each do |am| %>
-        <li><%= link_to am.name, amenity_tags_path(am, :listing_id => @listing.id), method: 'post', id: "am-#{am.id}", remote: true %></li>
-      <% end %>
-    </ul>
-
-
-  </div>
-
-</div>
+<% end %>
 
 
