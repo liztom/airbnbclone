@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col-md-5">
-    <%= image_tag @user.avatar.url(:medium) %>
+    <% if !@user.avatar_file_name.nil? %>
+      <%= image_tag @user.avatar.url(:medium) %>
+    <% end %>
   </div>
   <div class="col-md-7">
     <h2>Hi, I'm <%= @user.name %>!</h2>
