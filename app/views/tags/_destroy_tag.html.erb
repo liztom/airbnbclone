@@ -1,0 +1,1 @@
+<li><%= link_to @amenity.name, amenity_tags_path(@amenity, :listing_id => @listing.id), method: 'post', id: "am-#{@amenity.id}", remote: true %></li>

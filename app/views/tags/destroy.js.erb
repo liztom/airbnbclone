@@ -1,0 +1,3 @@
+$("#destroy-am-<%= @tag.id %>").parent().remove()
+
+$('#add-amenities ul').append('<%= j render "destroy_tag", object: @tag %>');

@@ -1,11 +1,20 @@
 class PhotosController < ApplicationController
   def create
     @listing = Listing.find(params[:listing_id])
-    @photo = @listing.photos.create(photo_params)
+    @photo = Photo.new(photo_params)
+    @listing.photos << @photo
 
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.js
+    if @photo.save
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js
+      end
+    else
+      flash[:alert] = "There was an error uploading your photo."
+      respond_to do |format|
+        format.html { redirect_to :back }
+        format.js
+      end
     end
   end
 

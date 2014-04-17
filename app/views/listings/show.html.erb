@@ -1,16 +1,72 @@
-<h1><%= @listing.address %></h1>
+<div class="row">
+  <div class="col-md-6">
+    <h1><%= @listing.address %></h1>
 
-<div id="photos">
-  <% @listing.photos.each do |photo| %>
-    <%= image_tag photo.picture.url(:thumb) %>
-  <% end %>
+    <p><%= @listing.description %></p>
+  </div>
+  <div class="col-md-3">
+    Details:
+    <ul>
+      <li>Bed(s): <%= @listing.bed_type %></li>
+      <li>Room(s): <%= @listing.room_type %></li>
+      <li>Bedroom(s): <%= @listing.bedroom_count %></li>
+      <li>Bathroom(s): <%= @listing.bathroom_count %></li>
+    </ul>
+  </div>
+  <div class="col-md-3">
+    Rates:
+    <ul>
+      <li>Daily: $<%= @listing.nightly_rate.to_i %></li>
+      <li>Weekly: $<%= @listing.weekly_rate.to_i %></li>
+      <li>Monthy: $<%= @listing.monthly_rate.to_i %></li>
+    </ul>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div id="listing-tags" class="col-lg-12">
+      <ul>
+        <% @tags.each do |tag| %>
+            <li><%= link_to tag.amenity.name, amenity_tag_path(tag.amenity, tag), remote: true,  method: 'delete', id: "destroy-am-#{tag.id}" %></li>
+        <% end %>
+      </ul>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div id="photos" class="col-lg-12">
+    <% @listing.photos.each do |photo| %>
+      <%= image_tag photo.picture.url(:thumb) %>
+    <% end %>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-4">
+    <% if current_user.id == @listing.user_id %>
+      <%= form_for [@user, @listing, @photo], remote: true, authenticity_token: true, html: { :multipart => true } do |f| %>
+        <div class="form-group">
+          <%= f.label :picture, "Add a Photo" %>
+          <%= f.file_field :picture, class: 'form-control' %>
+        </div>
+        <%= f.submit 'Submit', class: 'btn btn-info' %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col-md-2">
+    <%= link_to 'Edit Listing', edit_user_listing_path(current_user, @listing) %>
+  </div>
+  <div class="col-md-6"  id="add-amenities">
+    Add Amenities:
+    <ul>
+      <% @amenities.each do |am| %>
+        <li><%= link_to am.name, amenity_tags_path(am, :listing_id => @listing.id), method: 'post', id: "am-#{am.id}", remote: true %></li>
+      <% end %>
+    </ul>
+
+
+  </div>
+
 </div>
 
-<% if current_user.id == @listing.user_id %>
-  <%= form_for [@user, @listing, @photo], remote: true, authenticity_token: true, html: { :multipart => true } do |f| %>
-    <div class="form-group">
-      <%= f.file_field :picture, class: 'form-control' %>
-    </div>
-    <%= f.submit 'Submit', class: 'btn btn-info' %>
-  <% end %>
-<% end %>
+

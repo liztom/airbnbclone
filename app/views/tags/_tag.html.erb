@@ -1,0 +1,1 @@
+<li><%= link_to @tag.amenity.name, amenity_tag_path(@tag.amenity, @tag), method: 'delete', remote: true, id: "destroy-am-#{@tag.id}" %></li>

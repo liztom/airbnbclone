@@ -4,15 +4,21 @@
   </div>
   <div class="col-md-7">
     <h2>Hi, I'm <%= @user.name %>!</h2>
+    <h5>Member for <%= time_ago_in_words(@user.created_at) %></h5>
     <%= @user.bio %>
     <hr>
+    <span class="glyphicon glyphicon-pencil"></span>
     <%= link_to 'Edit Profile', edit_user_registration_path %> |
+    <span class="glyphicon glyphicon-plus"></span>
     <%= link_to 'New Listing', new_user_listing_path(current_user) %>
   </div>
 </div>
 <div class="row">
   <h2>Listings:</h2>
   <% @listings.each do |listing| %>
-    <%= link_to listing.address, user_listing_path(current_user, listing) %>
+    <div class="user-listing">
+      <span class="glyphicon glyphicon-home"></span>
+      <%= link_to listing.address, user_listing_path(current_user, listing) %>
+    </div>
   <% end %>
 </div>

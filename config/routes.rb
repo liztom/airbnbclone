@@ -5,5 +5,9 @@ Bearbnb::Application.routes.draw do
       resources :photos
     end
   end
+
+  resources :amenities do
+    resources :tags
+  end
   root to: 'users#index'
 end

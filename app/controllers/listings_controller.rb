@@ -12,6 +12,11 @@ class ListingsController < ApplicationController
     @listing = Listing.find(params[:id])
     @photo = Photo.new
     @user = User.find(params[:user_id])
+
+
+    @tags = @listing.tags
+    @amenities = Amenity.all - @listing.amenities
+
   end
 
   def create
@@ -53,7 +58,7 @@ class ListingsController < ApplicationController
 
   private
     def listing_params
-      params.require(:listing).permit(:address, :city, :bedroom_count, :bathroom_count, :bed_type_id, :room_type_id, :description, :nightly_rate, :weekly_rate, :monthly_rate)
+      params.require(:listing).permit(:address, :city, :bedroom_count, :bathroom_count, :bed_type, :room_type, :description, :nightly_rate, :weekly_rate, :monthly_rate)
     end
 
 end

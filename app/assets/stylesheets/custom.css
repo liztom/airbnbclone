@@ -25,3 +25,15 @@ body {
   background-color:white;
   padding:20px 30px;
 }
+
+#add-amenities ul li {
+  display:inline-block;
+  margin: 2px;
+  padding: 3px 6px;
+  border-radius: 2px;
+  background-color: blue;
+}
+
+#add-amenities ul li a {
+  color: white;
+}

@@ -1,0 +1,55 @@
+<div class="col-md-6">
+
+  <%= form_for [current_user, @listing] do |f| %>
+
+  <div class="form-group">
+    <%= f.label :address, 'Street Address:', class: 'sr-only' %>
+    <%= f.text_field :address, autofocus: true, placeholder: 'Street Address', class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :city, 'City:', class: 'sr-only' %>
+    <%= f.text_field :city, placeholder: 'City', class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-6">
+        <%= f.number_field :bedroom_count, placeholder: 'Bedroom Count', class: 'form-control' %>
+      </div>
+      <div class="col-sm-6">
+        <%= f.number_field :bathroom_count, placeholder: 'Bathroom Count', class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description, 'Description:', class: 'sr-only' %>
+    <%= f.text_area :description, placeholder: 'Description', class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :bed_type, 'Bed Type:' %>
+    <%= f.select :bed_type, options_for_select([['Bed','Bed'], ['Air Mattress','Air Mattress'], ['Futon','Futon'], ['Couch','Couch'], ['Floor','Floor']]), class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :room_type, 'Room Type:' %>
+    <%= f.select :room_type, options_for_select([['Private','Private'], ['Shared','Shared']]), class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-12">
+        <label>Rates:</label>
+      </div>
+      <div class="col-sm-4">
+        <%= f.number_field :nightly_rate, placeholder: 'Daily Rate', class: 'form-control' %>
+      </div>
+      <div class="col-sm-4">
+        <%= f.number_field :weekly_rate, placeholder: 'Weekly', class: 'form-control' %>
+      </div>
+      <div class="col-sm-4">
+        <%= f.number_field :monthly_rate, placeholder: 'Monthly', class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+  <%= f.submit "Submit", :class => 'btn btn-info' %>
+<% end %>
+
+</div>
