@@ -12,6 +12,7 @@ class ListingsController < ApplicationController
     @listing = Listing.find(params[:id])
     @photo = Photo.new
     @user = User.find(params[:user_id])
+    @reservations = @listing.reservations
     @reservation = Reservation.new
 
     @tags = @listing.tags

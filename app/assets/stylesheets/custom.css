@@ -56,3 +56,33 @@ body {
   max-width: 300px;
   max-height: 300px;
 }
+
+#calendar {
+  width:750px;
+}
+
+.day-header {
+  width: 100px;
+  text-align: center;
+  border:1px solid black;
+  float: left;
+  padding:5px 0;
+  background-color: #ddd;
+}
+
+.day-box {
+  width: 100px;
+  height: 100px;
+  padding:3px 6px;
+  border:1px solid black;
+  float:left;
+}
+
+.day-box .day-num {
+  /*position: absolute;*/
+  display:block;
+}
+
+.day-box .booking {
+  display:block;
+}

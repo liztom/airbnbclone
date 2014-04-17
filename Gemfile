@@ -14,6 +14,7 @@ gem 'rghost'
 gem 'stringex'
 gem 'devise'
 gem 'remotipart'
+gem 'simple_calendar'
 
 group :development do
   gem 'better_errors'
