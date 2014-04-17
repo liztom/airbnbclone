@@ -5,14 +5,14 @@
     <div class="month-header"><%= @this_month.strftime("%B") %></div>
     <div class="day-header">Sunday</div><div class="day-header">Monday</div><div class="day-header">Tuesday</div><div class="day-header">Wednesday</div><div class="day-header">Thursday</div><div class="day-header">Friday</div><div class="day-header">Saturday</div>
     <%
-      month = Date.today.strftime("%m").to_i
+      month = @this_month.strftime("%m").to_i
       this_month_bookings = @reservations.select { |res| (res.checkin.strftime("%m").to_i) == month }
-      spaces = Time.days_in_month(Date.today.strftime("%m").to_i, Date.today.strftime("%Y").to_i) + Date.today.wday
+      spaces = Time.days_in_month(@this_month.strftime("%m").to_i, @this_month.strftime("%Y").to_i) + @this_month.wday
       counter = 0
       for i in 1..spaces do
     %>
       <div class="day-box" id="day-<%= i %>">
-        <% if i >= Date.today.wday - 1 && i < spaces - 1  %>
+        <% if i > @this_month.wday && i <= spaces %>
           <% counter += 1 %>
           <span class="day-num"><%= counter %></span>
           <% this_month_bookings.each do |booking| %>
