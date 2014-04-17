@@ -3,6 +3,7 @@ Bearbnb::Application.routes.draw do
 
   resources :users do
     resources :listings do
+      resources :reservations
       resources :photos
     end
   end

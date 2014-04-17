@@ -22,6 +22,6 @@ def new_listing(listing)
   fill_in :listing_city, with: listing.city
   fill_in :listing_bedroom_count, with: listing.bedroom_count
   fill_in :listing_bathroom_count, with: listing.bathroom_count
-  click_on "Register"
+  click_on "Submit"
 end
 
