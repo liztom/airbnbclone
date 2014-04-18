@@ -11,6 +11,11 @@
               <li><a href="/"><img height="20" src="http://upload.wikimedia.org/wikipedia/commons/c/c4/Farm-Fresh_teddy_bear.png">Bear BNB</a></li>
             </ul>
 
+            <%= form_tag "/search", method: "get", class: 'navbar-form navbar-left' do %>
+              <%= text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search by city...' %>
+              <%= submit_tag "Search", class: 'btn btn-s' %>
+            <% end %>
+
             <ul class="nav navbar-nav navbar-right">
               <% if current_user %>
                <li><%= link_to current_user.name, user_path(current_user) %></li>

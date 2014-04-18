@@ -6,6 +6,7 @@ class ReservationsController < ApplicationController
     @user = @listing.user
 
     if @reservation.save
+      CustomMailer.reservation_made(@user, @reservation.user).deliver
       flash[:notice] = "Your reservation was made"
       redirect_to user_listing_path(@user, @listing)
     else

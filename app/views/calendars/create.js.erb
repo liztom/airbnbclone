@@ -1,2 +1,9 @@
 $('#cal-row').empty();
 $('#cal-row').append('<%= j render("listings/calendar") %>');
+$('.booking').each(function() {
+      $(this).parent().addClass('booked-day');
+    })
+
+    $('.other-month').each(function() {
+      $(this).parent().addClass('invalid-day');
+    })

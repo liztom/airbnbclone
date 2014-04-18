@@ -1,7 +1,15 @@
 class ListingsController < ApplicationController
 
   def index
-    @listings = Listing.all
+    if params[:search].nil?
+      flash[:alert] = ""
+      @listings = Listing.all
+    else
+      @listings = Listing.search_by_city(params[:search])
+      if @listings.length < 1
+        flash[:alert] = "No results found"
+      end
+    end
   end
 
   def new
@@ -59,7 +67,7 @@ class ListingsController < ApplicationController
 
   private
     def listing_params
-      params.require(:listing).permit(:address, :city, :bedroom_count, :bathroom_count, :bed_type, :room_type, :description, :nightly_rate, :weekly_rate, :monthly_rate)
+      params.require(:listing).permit(:search, :address, :city, :bedroom_count, :bathroom_count, :bed_type, :room_type, :description, :nightly_rate, :weekly_rate, :monthly_rate)
     end
 
 end

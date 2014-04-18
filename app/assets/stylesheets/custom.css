@@ -92,6 +92,10 @@ body {
   color: gray;
 }
 
+.booked-day .day-num {
+  color: red;
+}
+
 .day-box .booking {
   display:block;
   color: red;
@@ -100,7 +104,15 @@ body {
 
 .booked-day {
   background-color: #ccc;
+  background-image: url(http://subtlepatterns.com/patterns/diagonal-noise.png);
+  color: red;
 }
+
+.invalid-day {
+  background-color: gray;
+  background-image: url(http://subtlepatterns.com/patterns/darth_stripe.png);
+}
+
 
 .review-posting-time {
   position: absolute;

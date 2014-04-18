@@ -1,0 +1,15 @@
+<% @search_results.each do |result| %>
+
+  <div class="listing-index">
+    <div class="listing-info">
+      <%= result.address %>
+    </div>
+
+    <% if result.photos.length > 0 %>
+      <%= link_to (image_tag result.photos.first.picture.url(:medium), class: 'listing-bg'), user_result_path(result.user, result) %>
+    <% else %>
+      <%= link_to (image_tag 'http://cdn.freshome.com/wp-content/uploads/2009/06/Hello-Kitty-House-in-Shanghai-1.jpg', class: 'listing-bg'), user_result_path(result.user, result) %>
+    <% end %>
+  </div>
+
+<% end %>

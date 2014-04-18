@@ -24,4 +24,11 @@ class Reservation < ActiveRecord::Base
       end
     end
   end
+
+  def send_reservation_message
+    listing = Listing.find(self.listing_id)
+    renter = User.find(self.user_id)
+    owner = listing.user
+    CustomMailer.reservation_made(owner, renter)
+  end
 end
