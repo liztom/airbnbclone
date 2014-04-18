@@ -16,11 +16,23 @@
   </div>
 </div>
 <div class="row">
-  <h2>Listings:</h2>
-  <% @listings.each do |listing| %>
-    <div class="user-listing">
-      <span class="glyphicon glyphicon-home"></span>
-      <%= link_to listing.address, user_listing_path(current_user, listing) %>
-    </div>
-  <% end %>
+  <div class="col-md-6">
+    <h2>Listings:</h2>
+    <% @listings.each do |listing| %>
+      <div class="user-listing">
+        <span class="glyphicon glyphicon-home"></span>
+        <%= link_to listing.address, user_listing_path(current_user, listing) %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-6">
+    <h2>Future Bookings</h2>
+    <% @user.reservations.each do |reservation| %>
+      <div class="user-reservation">
+        <span class="glyphicon glyphicon-certificate"></span>
+        <%= link_to reservation.listing.address, user_listing_path(reservation.user, reservation.listing) %>
+        <span class="booking-dates"><%= reservation.checkin.strftime("%m/%d/%y") %> - <%= reservation.checkout.strftime("%m/%d/%y") %></span>
+      </div>
+    <% end %>
+  </div>
 </div>

@@ -17,10 +17,12 @@ li {list-style-position: inside;}
 
 body {
   background-color: navy;
+  font-family: 'Port Lligat Slab', serif;
+
 }
 
 #wrapper {
-  margin:65px auto 0 auto;
+  margin:65px auto 50px auto;
   width: 85%;
   background-color:white;
   padding:20px 30px;
@@ -123,4 +125,16 @@ body {
 .star-rating {
   color: navy;
   float:right;
+}
+
+.booking-dates {
+  font-size:11px;
+  font-style: italic;
+  opacity: .7;
+
+}
+
+.tab-pane {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }

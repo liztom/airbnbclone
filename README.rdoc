@@ -22,5 +22,4 @@ things to add:
 tabs for a listing
   - owner: my listings, my bookings
   - visitor: description/reviews, amenities,
-photo lightbox popup
 
