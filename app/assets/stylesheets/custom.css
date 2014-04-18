@@ -26,7 +26,7 @@ body {
   padding:20px 30px;
 }
 
-#add-amenities ul li {
+#add-amenities ul li, #listing-tags ul li {
   display:inline-block;
   margin: 2px;
   padding: 3px 6px;
@@ -34,7 +34,7 @@ body {
   background-color: blue;
 }
 
-#add-amenities ul li a {
+#add-amenities ul li a, #listing-tags ul li a {
   color: white;
 }
 
@@ -61,6 +61,13 @@ body {
   width:750px;
 }
 
+
+.month-header {
+  font-size:18px;
+  font-weight:bold;
+  margin: 10px 0;
+}
+
 .day-header {
   width: 100px;
   text-align: center;
@@ -72,7 +79,7 @@ body {
 
 .day-box {
   width: 100px;
-  height: 100px;
+  height: 50px;
   padding:3px 6px;
   border:1px solid black;
   float:left;
@@ -81,13 +88,27 @@ body {
 .day-box .day-num {
   /*position: absolute;*/
   display:block;
+  font-size: 11px;
+  color: gray;
 }
 
 .day-box .booking {
   display:block;
   color: red;
+  display:none;
 }
 
 .booked-day {
-  background-color: #eee;
+  background-color: #ccc;
+}
+
+.review-posting-time {
+  position: absolute;
+  bottom: 0;
+  margin: -20px 0 0 0;
+}
+
+.star-rating {
+  color: navy;
+  float:right;
 }

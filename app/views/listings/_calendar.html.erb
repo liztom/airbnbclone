@@ -8,7 +8,6 @@
     <%
       month = @this_month.strftime("%m").to_i
       all_bookings = {2014 => [], 2015 => [], 2016 => []}
-      array = []
       @reservations.map do |res|
         for x in 0...res.checkout - res.checkin
           all_bookings[(res.checkin + x).strftime("%Y").to_i] << (res.checkin + x).yday

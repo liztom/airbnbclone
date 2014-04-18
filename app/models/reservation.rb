@@ -1,6 +1,7 @@
 class Reservation < ActiveRecord::Base
   belongs_to :user
   belongs_to :listing
+  has_many :reviews, as: :commentable
   validate :checkin_cannot_be_in_the_past, :checkout_cannot_be_before_checkin, :dates_cannot_be_reserved_if_already_taken
 
   def checkin_cannot_be_in_the_past

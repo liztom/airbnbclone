@@ -15,6 +15,7 @@ class ListingsController < ApplicationController
     @reservations = @listing.reservations
     @reservation = Reservation.new
     @tags = @listing.tags
+    @review = Review.new
     @amenities = Amenity.all - @listing.amenities
   end
 

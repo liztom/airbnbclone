@@ -8,6 +8,7 @@ Bearbnb::Application.routes.draw do
     end
   end
 
+  resources :reviews
   resources :calendars, :only => [:create]
 
   resources :amenities do
