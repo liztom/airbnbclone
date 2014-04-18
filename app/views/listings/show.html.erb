@@ -3,7 +3,7 @@
     <h1><%= @listing.address %></h1>
 
     <p><%= @listing.description %></p>
-    <p><%= render 'layouts/errors', object: @reservation %></p>
+    <p><%= render 'layouts/errors', object: @review %></p>
 
     <% if current_user != @listing.user %>
       <%= link_to 'Book It', '#', class: 'btn btn-danger', data: { toggle: 'modal', target: '#makeReservation'} %>
@@ -92,7 +92,7 @@
       </div>
     </div>
 
-    <% @listing.reviews.each do |review| %>
+    <% @reviews.each do |review| %>
       <div class="panel panel-default">
         <div class="panel-heading">
           <%= link_to review.user.name, user_path(review.user) %>

@@ -3,12 +3,20 @@ class ReviewsController < ApplicationController
       @listing = Listing.find(params[:listing_id])
       @user = User.find(params[:user_id])
       @review = @listing.reviews.new(review_params)
+
+      @photo = Photo.new
+      @reservations = @listing.reservations
+      @reservation = Reservation.new
+      @tags = @listing.tags
+      @amenities = Amenity.all - @listing.amenities
+
     if @review.save
       flash[:notice] = "Your review has been saved!"
       redirect_to :back
     else
+      @reviews = @listing.reviews[0...-1]
       flash[:alert] = "There was a problem creating your review"
-      render 'users/show'
+      render 'listings/show'
     end
   end
 
@@ -20,7 +28,7 @@ class ReviewsController < ApplicationController
       redirect_to :back
     else
       flash[:alert] = "There was a problem updating your review"
-      render 'users/show'
+      render 'listings/show'
     end
   end
 
