@@ -3,7 +3,6 @@
     <h1><%= @listing.address %></h1>
 
     <p><%= @listing.description %></p>
-    <%# BREAK %>
     <p><%= render 'layouts/errors', object: @reservation %></p>
 
     <%= link_to 'Book It', '#', class: 'btn btn-danger', data: { toggle: 'modal', target: '#makeReservation'} %>
@@ -45,11 +44,29 @@
     <% end %>
   </div>
 </div>
-<%= @month = Date.today.strftime("%m") %>
-<% @this_month = Date.new(Time.now.year, @month.to_i, 1) %>
-<%= link_to 'Previous Month', calendars_path(month: (@this_month.strftime('%m').to_i-1), listing_id: @listing.id, user_id: @listing.user ), data: {method: 'post'}, class: 'btn btn-info', remote: true %>
-<%= link_to 'Next Month', calendars_path(month: (@this_month.strftime('%m').to_i+1), listing_id: @listing.id, user_id: @listing.user), data: {method: 'post'}, class: 'btn btn-danger', remote: true %>
-<%= @month = Date.today.strftime("%m") %>
+<% @month = Date.today.strftime("%m")
+   @year = Date.today.strftime("%Y").to_i
+%>
+
+<% @this_month = Date.new(@year, @month.to_i, 1) %>
+
+<% if false %>
+  <%= link_to 'Previous Month', calendars_path(month: (@this_month.strftime('%m').to_i-1), listing_id: @listing.id, user_id: @listing.user ), data: {method: 'post'}, class: 'btn btn-info', remote: true %>
+  <%= link_to 'Next Month', calendars_path(month: (@this_month.strftime('%m').to_i+1), listing_id: @listing.id, user_id: @listing.user), data: {method: 'post'}, class: 'btn btn-danger', remote: true %>
+<% else %>
+  <%= form_tag calendars_path(listing_id: @listing.id, user_id: @listing.user), remote:true do %>
+    <div class="row">
+      <div class="col-md-3">
+        <%= select_tag :month, options_for_select([['January', 1], ['February',2], ['March',3], ['April',4], ['May',5], ['June',6], ['July',7], ['August',8], ['September',9], ['October',10], ['November',11], ['December',12]], selected: @month), class: 'form-control' %>
+      </div><div class="col-md-3">
+        <%= select_tag :year, options_for_select([['2014', 2014], ['2015',2015], ['2016',2016]]), class: 'form-control' %>
+      </div><div class="col-md-3">
+        <%= submit_tag 'Submit' %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
 <%= render '/listings/calendar' %>
 
 <div class="clear"></div>

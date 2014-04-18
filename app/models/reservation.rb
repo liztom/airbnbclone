@@ -18,7 +18,7 @@ class Reservation < ActiveRecord::Base
   def dates_cannot_be_reserved_if_already_taken
     reservations = Reservation.where(listing_id: self.listing_id)
     reservations.each do |res|
-      if (self.checkin.between?(res.checkin, res.checkout))
+      if (self.checkin.between?(res.checkin, res.checkout) || self.checkout.between?(res.checkin, res.checkout))
         errors.add(:checkin, "Dates are already taken.")
       end
     end

@@ -1,31 +1,32 @@
 <div class="row" id="cal-row">
   <div id="calendar" class="col-lg-12">
 
-    <% @this_month = Date.new(Time.now.year, @month.to_i, 1) %>
+    <% @this_month = Date.new(@year, @month.to_i, 1) %>
+
     <div class="month-header"><%= @this_month.strftime("%B") %></div>
     <div class="day-header">Sunday</div><div class="day-header">Monday</div><div class="day-header">Tuesday</div><div class="day-header">Wednesday</div><div class="day-header">Thursday</div><div class="day-header">Friday</div><div class="day-header">Saturday</div>
     <%
       month = @this_month.strftime("%m").to_i
-      this_month_bookings = @reservations.select { |res| (res.checkin.strftime("%m").to_i) == month }
+      all_bookings = {2014 => [], 2015 => [], 2016 => []}
+      array = []
+      @reservations.map do |res|
+        for x in 0...res.checkout - res.checkin
+          all_bookings[(res.checkin + x).strftime("%Y").to_i] << (res.checkin + x).yday
+        end
+      end
       spaces = Time.days_in_month(@this_month.strftime("%m").to_i, @this_month.strftime("%Y").to_i) + @this_month.wday
       counter = 0
-      for i in 1..spaces do
     %>
+    <% for i in 1..spaces do %>
       <div class="day-box" id="day-<%= i %>">
         <% if i > @this_month.wday && i <= spaces %>
           <% counter += 1 %>
           <span class="day-num"><%= counter %></span>
-          <% this_month_bookings.each do |booking| %>
-          <% days_booked = []
-            booking.checkin.strftime("%d").to_i.upto(booking.checkout.strftime("%d").to_i) {|n| days_booked << n }
-          %>
-            <% if days_booked.include?(counter) %>
-                <span class="booking">Booked</span>
-            <% end %>
+          <% if all_bookings[@year].include?(Date.new(@year, @month.to_i, counter).yday) %>
+              <span class="booking">Booked</span>
           <% end %>
         <% end %>
       </div>
     <% end %>
-
   </div>
 </div>

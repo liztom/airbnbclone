@@ -12,7 +12,12 @@ User
 
 
 As a User
-search through  listings
+search through  listings, by city
 select a listing and a timeframe, use calendar.
+
+
 write reviews on a listing
 write reviews about another user
+ONE TABLE, polymorphic, commentable-type, commentable_id - t.references :commentable
+
+
