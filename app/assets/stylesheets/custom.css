@@ -137,3 +137,13 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
+.photo-buttons {
+  float: left;
+  padding: 10px;
+}
+
+.photo-thumbs {
+  padding :10px;
+  float: left;
+}

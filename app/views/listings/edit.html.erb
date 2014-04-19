@@ -1,2 +1,18 @@
 <h2>Edit Your Listing</h2>
-<%= render 'form' %>
+
+<div class="row">
+  <%= render 'form' %>
+</div>
+
+<hr>
+
+<h2>Photos</h2>
+
+<div class="row">
+  <div id="photos" class="col-lg-12">
+    <% @listing.photos.each do |photo| %>
+      <%= link_to (image_tag photo.picture.url(:thumb)), photo.picture.url(:medium), class: 'fancybox', title: photo.caption, rel: 'fb-group' %>
+    <% end %>
+  </div>
+</div>
+

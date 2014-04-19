@@ -2,7 +2,6 @@ class ListingsController < ApplicationController
 
   def index
     if params[:search].nil?
-      flash[:alert] = ""
       @listings = Listing.all
     else
       @listings = Listing.search_by_city(params[:search])
@@ -44,6 +43,8 @@ class ListingsController < ApplicationController
 
   def edit
     @listing = Listing.find(params[:id])
+    @user = @listing.user
+    @photo = Photo.new
   end
 
   def update

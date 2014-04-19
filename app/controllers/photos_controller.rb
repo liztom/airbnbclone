@@ -12,16 +12,32 @@ class PhotosController < ApplicationController
     else
       flash[:alert] = "There was an error uploading your photo."
       respond_to do |format|
-        format.html { redirect_to :back }
+        format.html { render :back }
         format.js
       end
+    end
+  end
+
+  def edit
+    @photo = Photo.find(params[:id])
+  end
+
+  def update
+    @photo = Photo.find(params[:id])
+    @photo.update(photo_params)
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
     end
   end
 
   def destroy
     @photo = Photo.find(params[:id])
     @photo.destroy
-    redirect_to root_path
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
+    end
   end
 
 private

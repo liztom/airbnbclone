@@ -24,7 +24,7 @@ class ReservationsController < ApplicationController
 
   def update
     @reservation = Reservation.find(params[:id])
-
+    
     if @reservation.update(reservation_params)
       redirect_to :back
     else

@@ -11,6 +11,8 @@ $(document).ready(function() {
     })
   };
 
+  $(".photo-form").hide();
+
   $(".fancybox").fancybox({
     'transitionIn'  : 'elastic',
     'transitionOut' : 'elastic',
