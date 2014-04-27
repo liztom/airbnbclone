@@ -16,6 +16,7 @@ gem 'devise'
 gem 'remotipart'
 gem 'simple_calendar'
 gem 'cancancan'
+gem 'rufus-scheduler'
 
 group :development do
   gem 'better_errors'
