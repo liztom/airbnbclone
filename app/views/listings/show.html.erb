@@ -1,211 +1,212 @@
-<div class="row">
-  <div class="col-md-6">
-    <h1><%= @listing.address %></h1>
-
-    <p><%= @listing.description %></p>
-    <p><%= render 'layouts/errors', object: @review %></p>
-
-    <% if current_user != @listing.user %>
-      <%= link_to 'Book It', '#', class: 'btn btn-danger', data: { toggle: 'modal', target: '#makeReservation'} %>
-    <% end %>
-  </div>
-  <div class="col-md-3">
-    Details:
-    <ul>
-      <li>Bed(s): <%= @listing.bed_type %></li>
-      <li>Room(s): <%= @listing.room_type %></li>
-      <li>Bedroom(s): <%= @listing.bedroom_count %></li>
-      <li>Bathroom(s): <%= @listing.bathroom_count %></li>
-    </ul>
-  </div>
-  <div class="col-md-3">
-    Rates:
-    <ul>
-      <li>Daily: $<%= @listing.nightly_rate.to_i %></li>
-      <li>Weekly: $<%= @listing.weekly_rate.to_i %></li>
-      <li>Monthy: $<%= @listing.monthly_rate.to_i %></li>
-    </ul>
-  </div>
-</div>
-<hr>
-
-<div class="row">
-  <div id="listing-tags" class="col-lg-12">
-      <ul>
-        <% @tags.each do |tag| %>
-            <li>
-              <% if current_user == @listing.user %>
-                <%= link_to tag.amenity.name, amenity_tag_path(tag.amenity, tag), remote: true,  method: 'delete', id: "destroy-am-#{tag.id}" %>
-              <% else %>
-                <%= link_to tag.amenity.name, '#' %>
-              <% end %>
-            </li>
-        <% end %>
-      </ul>
-  </div>
-</div>
-
-<div class="row">
-  <div id="photos" class="col-lg-12">
-    <% @listing.photos.each do |photo| %>
-      <div class="photo-thumbs">
-        <%= link_to (image_tag photo.picture.url(:thumb)), photo.picture.url(:medium), class: 'fancybox photo-thumb', title: photo.caption, rel: 'fb-group', id: "destroy-#{photo.id}" %>
-      </div>
-      <% if current_user == @listing.user %>
-        <div class="photo-buttons">
-          <%= link_to "Delete", user_listing_photo_path(@user, @listing, photo),
-                           :data => {:confirm => "Are you sure?",
-                                     :method => "delete"},
-                           :class => "btn btn-danger btn-xs", :id => "delete-button-#{photo.id}", remote: true %></p>
-          <%= link_to 'Edit Caption', "#", class: 'btn btn-success btn-xs', data: { toggle: 'modal', target: '#editCaption'} %>
-        </div>
-      <% end %>
-      <div class="modal fade" id="editCaption" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title" id="myModalLabel">Edit Caption</h4>
-            </div>
-            <div class="modal-body">
-              <%= form_for [@user, @listing, photo], method: "patch" do |f| %>
-                <div class="form-group">
-                  <%= f.label :caption %>
-                  <%= f.text_field :caption, class: 'form-control', placeholder: "Describe the picture..." %> 
-                </div>
-                <%= f.submit 'Submit', class: 'btn btn-info' %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</div>
-
-<hr>
-
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#calendar-pane" data-toggle="tab">Calendar</a></li>
-  <li><a href="#review-pane" data-toggle="tab">Reviews</a></li>
-  <% if current_user == @listing.user %>
-    <li><a href="#editor-pane" data-toggle="tab">Edit Listing</a></li>
-  <% end %>
-</ul>
-<div class="tab-content">
-
-<div class="tab-pane active" id="calendar-pane">
-
-  <% @month = Date.today.strftime("%m")
-     @year = Date.today.strftime("%Y").to_i
-  %>
-
-  <% @this_month = Date.new(@year, @month.to_i, 1) %>
-
-  <%= form_tag calendars_path(listing_id: @listing.id, user_id: @listing.user), id: 'calendar-form', remote:true do %>
-    <div class="row">
-      <div class="col-md-3">
-        <%= select_tag :month, options_for_select([['January', 1], ['February',2], ['March',3], ['April',4], ['May',5], ['June',6], ['July',7], ['August',8], ['September',9], ['October',10], ['November',11], ['December',12]], @month.to_i), class: 'form-control' %>
-      </div><div class="col-md-3">
-        <%= select_tag :year, options_for_select([['2014', 2014], ['2015',2015], ['2016',2016]], @year.to_i), class: 'form-control' %>
-      </div><div class="col-md-3">
-        <%= submit_tag 'Submit' %>
-      </div>
-    </div>
-  <% end %>
-
-  <div class="row" id="cal-row">
-    <%= render '/listings/calendar' %>
-  </div>
-<div class="clear"></div>
-
-</div>
-
-
-<div class="tab-pane" id="review-pane">
-
-<div class="row">
-
-  <div class="col-md-6">
-    <h4>Reviews</h4>
-
-    <% if @listing.reservations.where(user_id: current_user.id).length > 0 && current_user != @listing.user %>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">Add a listing review</div>
-        <div class="panel-body">
-          <%= form_tag reviews_path(listing_id: @listing.id, user_id: current_user.id) do %>
-            <div class="form-group">
-              <%= label_tag :rating, 'Rating: ' %>
-              <%= select_tag :rating, options_for_select([[5,5],[4,4],[3,3],[2,2],[1,1]]), class: 'form-control' %>
-            </div>
-            <div class="form-group">
-              <%= text_area_tag :description, '', placeholder: 'Say something...' ,rows: 5, class: 'form-control' %>
-            </div>
-            <%= submit_tag 'Submit', class: 'btn, btn-primary'  %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-
-    <% @reviews.each do |review| %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <%= link_to review.user.name, user_path(review.user) %>
-          <div class="star-rating"><%= '★' * review.rating %><%= '☆' * (5 - review.rating) %></div>
-        </div>
-        <div class="panel-body">
-          <div class="col-md-4">
-            <%= link_to (image_tag review.user.avatar.url(:thumb)), user_path(review.user) %>
-          </div>
-          <div class="col-md-6">
-            <div class="row">
-              <%= review.description %>
-            </div>
-          </div>
-        </div>
-        <div class="panel-footer">
-          <%= time_ago_in_words(review.created_at) %> ago.
-        </div>
-      </div>
-    <% end %>
-  </div>
-</div>
-<div class="clear"></div>
-
-</div>
-
-<div class="tab-pane" id="editor-pane">
-
-<% if current_user.id == @listing.user_id %>
+<% if user_signed_in? %>
   <div class="row">
-    <div class="col-md-5">
-      <%= form_for [@user, @listing, @photo], remote: true, authenticity_token: true, html: { :multipart => true } do |f| %>
-        <div class="form-group">
-          <%= f.label :picture, "Add a Photo" %>
-          <%= f.file_field :picture %>
-        </div>
-        <div class="form-group">
-          <%= f.label :caption %>
-          <%= f.text_field :caption, class: 'form-control', placeholder: "Describe the picture..." %> 
-        </div>
-        <%= f.submit 'Submit', class: 'btn btn-info' %>
+    <div class="col-md-6">
+      <h1><%= @listing.address %></h1>
+
+      <p><%= @listing.description %></p>
+      <p><%= render 'layouts/errors', object: @review %></p>
+
+      <% if current_user != @listing.user %>
+        <%= link_to 'Book It', '#', class: 'btn btn-danger', data: { toggle: 'modal', target: '#makeReservation'} %>
       <% end %>
     </div>
-    <h2>Edit Your Listing</h2>
-    <%= render 'form' %>
-    <div class="row">
-    <div class="col-md-6"  id="add-amenities">
-    <h3>Add Amenities:</h3>
+    <div class="col-md-3">
+      Details:
       <ul>
-        <% @amenities.each do |am| %>
-          <li><%= link_to am.name, amenity_tags_path(am, :listing_id => @listing.id), method: 'post', id: "am-#{am.id}", remote: true %></li>
-        <% end %>
+        <li>Bed(s): <%= @listing.bed_type %></li>
+        <li>Room(s): <%= @listing.room_type %></li>
+        <li>Bedroom(s): <%= @listing.bedroom_count %></li>
+        <li>Bathroom(s): <%= @listing.bathroom_count %></li>
       </ul>
     </div>
+    <div class="col-md-3">
+      Rates:
+      <ul>
+        <li>Daily: $<%= @listing.nightly_rate.to_i %></li>
+        <li>Weekly: $<%= @listing.weekly_rate.to_i %></li>
+        <li>Monthy: $<%= @listing.monthly_rate.to_i %></li>
+      </ul>
     </div>
   </div>
-<% end %>
+  <hr>
+
+  <div class="row">
+    <div id="listing-tags" class="col-lg-12">
+        <ul>
+          <% @tags.each do |tag| %>
+              <li>
+                <% if current_user == @listing.user %>
+                  <%= link_to tag.amenity.name, amenity_tag_path(tag.amenity, tag), remote: true,  method: 'delete', id: "destroy-am-#{tag.id}" %>
+                <% else %>
+                  <%= link_to tag.amenity.name, '#' %>
+                <% end %>
+              </li>
+          <% end %>
+        </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div id="photos" class="col-lg-12">
+      <% @listing.photos.each do |photo| %>
+        <div class="photo-thumbs">
+          <%= link_to (image_tag photo.picture.url(:thumb)), photo.picture.url(:medium), class: 'fancybox photo-thumb', title: photo.caption, rel: 'fb-group', id: "destroy-#{photo.id}" %>
+        </div>
+        <% if current_user == @listing.user %>
+          <div class="photo-buttons">
+            <%= link_to "Delete", user_listing_photo_path(@user, @listing, photo),
+                             :data => {:confirm => "Are you sure?",
+                                       :method => "delete"},
+                             :class => "btn btn-danger btn-xs", :id => "delete-button-#{photo.id}", remote: true %></p>
+            <%= link_to 'Edit Caption', "#", class: 'btn btn-success btn-xs', data: { toggle: 'modal', target: '#editCaption'} %>
+          </div>
+        <% end %>
+        <div class="modal fade" id="editCaption" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Edit Caption</h4>
+              </div>
+              <div class="modal-body">
+                <%= form_for [@user, @listing, photo], method: "patch" do |f| %>
+                  <div class="form-group">
+                    <%= f.label :caption %>
+                    <%= f.text_field :caption, class: 'form-control', placeholder: "Describe the picture..." %> 
+                  </div>
+                  <%= f.submit 'Submit', class: 'btn btn-info' %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <hr>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#calendar-pane" data-toggle="tab">Calendar</a></li>
+    <li><a href="#review-pane" data-toggle="tab">Reviews</a></li>
+    <% if current_user == @listing.user %>
+      <li><a href="#editor-pane" data-toggle="tab">Edit Listing</a></li>
+    <% end %>
+  </ul>
+  <div class="tab-content">
+
+  <div class="tab-pane active" id="calendar-pane">
+
+    <% @month = Date.today.strftime("%m")
+       @year = Date.today.strftime("%Y").to_i
+    %>
+
+    <% @this_month = Date.new(@year, @month.to_i, 1) %>
+
+    <%= form_tag calendars_path(listing_id: @listing.id, user_id: @listing.user), id: 'calendar-form', remote:true do %>
+      <div class="row">
+        <div class="col-md-3">
+          <%= select_tag :month, options_for_select([['January', 1], ['February',2], ['March',3], ['April',4], ['May',5], ['June',6], ['July',7], ['August',8], ['September',9], ['October',10], ['November',11], ['December',12]], @month.to_i), class: 'form-control' %>
+        </div><div class="col-md-3">
+          <%= select_tag :year, options_for_select([['2014', 2014], ['2015',2015], ['2016',2016]], @year.to_i), class: 'form-control' %>
+        </div><div class="col-md-3">
+          <%= submit_tag 'Submit' %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="row" id="cal-row">
+      <%= render '/listings/calendar' %>
+    </div>
+  <div class="clear"></div>
+
+  </div>
+
+
+  <div class="tab-pane" id="review-pane">
+
+  <div class="row">
+
+    <div class="col-md-6">
+      <h4>Reviews</h4>
+
+      <% if @listing.reservations.where(user_id: current_user.id).length > 0 && current_user != @listing.user %>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">Add a listing review</div>
+          <div class="panel-body">
+            <%= form_tag reviews_path(listing_id: @listing.id, user_id: current_user.id) do %>
+              <div class="form-group">
+                <%= label_tag :rating, 'Rating: ' %>
+                <%= select_tag :rating, options_for_select([[5,5],[4,4],[3,3],[2,2],[1,1]]), class: 'form-control' %>
+              </div>
+              <div class="form-group">
+                <%= text_area_tag :description, '', placeholder: 'Say something...' ,rows: 5, class: 'form-control' %>
+              </div>
+              <%= submit_tag 'Submit', class: 'btn, btn-primary'  %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <% @reviews.each do |review| %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <%= link_to review.user.name, user_path(review.user) %>
+            <div class="star-rating"><%= '★' * review.rating %><%= '☆' * (5 - review.rating) %></div>
+          </div>
+          <div class="panel-body">
+            <div class="col-md-4">
+              <%= link_to (image_tag review.user.avatar.url(:thumb)), user_path(review.user) %>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <%= review.description %>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <%= time_ago_in_words(review.created_at) %> ago.
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="clear"></div>
+
+  </div>
+
+  <div class="tab-pane" id="editor-pane">
+
+  <% if current_user.id == @listing.user_id %>
+    <div class="row">
+      <div class="col-md-5">
+        <%= form_for [@user, @listing, @photo], remote: true, authenticity_token: true, html: { :multipart => true } do |f| %>
+          <div class="form-group">
+            <%= f.label :picture, "Add a Photo" %>
+            <%= f.file_field :picture %>
+          </div>
+          <div class="form-group">
+            <%= f.label :caption %>
+            <%= f.text_field :caption, class: 'form-control', placeholder: "Describe the picture..." %> 
+          </div>
+          <%= f.submit 'Submit', class: 'btn btn-info' %>
+        <% end %>
+      </div>
+      <h2>Edit Your Listing</h2>
+      <%= render 'form' %>
+      <div class="row">
+      <div class="col-md-6"  id="add-amenities">
+      <h3>Add Amenities:</h3>
+        <ul>
+          <% @amenities.each do |am| %>
+            <li><%= link_to am.name, amenity_tags_path(am, :listing_id => @listing.id), method: 'post', id: "am-#{am.id}", remote: true %></li>
+          <% end %>
+        </ul>
+      </div>
+      </div>
+    </div>
+  <% end %>
 <div class="clear"></div>
 
 </div>
@@ -236,6 +237,6 @@
       </div>
     </div>
   </div>
-
+<% end %>
 
 
