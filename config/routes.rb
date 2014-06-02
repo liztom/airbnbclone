@@ -3,7 +3,6 @@ Bearbnb::Application.routes.draw do
 
   get 'search', to: 'listings#index'
 
-
   resources :users do
     resources :listings do
       resources :reservations
